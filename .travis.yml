@@ -1,0 +1,22 @@
+language: cpp
+os: linux
+dist: xenial
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test # remove if not using g++ for C++
+    packages:
+      - g++-8 # remove if not using g++ for C++
+      - valgrind
+
+script: # Modify the following lines to compile your program. The output binary needs to be called `triplet_challenge`
+  - export CXX=g++-8
+  - $CXX --version
+  - make
+
+after_script: # Do not change the following lines that are used to collect results to compare with other implementations
+  - wget https://github.com/sharkdp/hyperfine/releases/download/v1.3.0/hyperfine_1.3.0_amd64.deb && sudo dpkg -i hyperfine_1.3.0_amd64.deb
+  - cat /proc/cpuinfo
+  - hyperfine -w 3 -m 10 "./triplet_challenge pg2009.txt"
+  - valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out ./triplet_challenge pg2009.txt
+  - ms_print valgrind.out

@@ -1,0 +1,8 @@
+build
+*.o
+*.config
+*.creator*
+*.files
+*.includes
+triplet_challenge
+unit_test
