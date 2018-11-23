@@ -4,19 +4,27 @@ dist: xenial
 addons:
   apt:
     sources:
+      # Include here any new source that you may need to install a package
       - ubuntu-toolchain-r-test # remove if not using g++ for C++
     packages:
-      - g++-8 # remove if not using g++ for C++
+      # Required packages to run the benchmark and collect results
       - valgrind
+      - cloc
+      # Include now the specific packages that you need
+      - g++-8
 
-script: # Modify the following lines to compile your program. The output binary needs to be called `triplet_challenge`
+# Modify the script lines to compile and run your program. The output binary needs to be called `triplet_challenge`
+script:
   - export CXX=g++-8
   - $CXX --version
   - make
+  - make check
 
-after_script: # Do not change the following lines that are used to collect results to compare with other implementations
+# Do not change the `after_script` lines since they are used to collect results to compare with other implementations
+after_script:
   - wget https://github.com/sharkdp/hyperfine/releases/download/v1.3.0/hyperfine_1.3.0_amd64.deb && sudo dpkg -i hyperfine_1.3.0_amd64.deb
-  - cat /proc/cpuinfo
+  - lscpu
+  - cloc src
   - hyperfine -w 3 -m 10 "./triplet_challenge pg2009.txt"
   - valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out ./triplet_challenge pg2009.txt
   - ms_print valgrind.out

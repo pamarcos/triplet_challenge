@@ -1,13 +1,55 @@
+/**
+ * triplet_challenge is an application that extracts the top 3 triplet words of a file
+ *
+ * Copyright (C) 2018 Pablo Marcos Oltra
+ *
+ * This file is part of gencc.
+ *
+ * gencc is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * gencc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with gencc.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #pragma once
 
 #include <string>
 #include <array>
 
-struct Word {
-    std::string word;
-    int number = 0;
+// API
+struct Triplet {
+    std::string words;
+    size_t count = 0;
+
+    bool operator>(const Triplet& other) const {
+        return count > other.count;
+    }
+
+    bool operator==(const Triplet& other) const {
+        return words == other.words;
+    }
 };
 
-using TripletResult = std::array<Word, 3>;
+using TripletResult = std::array<Triplet, 3>;
 
-TripletResult getTriplet(std::string_view buffer);
+TripletResult calculateTriplets(std::string_view buffer);
+
+// Internal stuff to unit test
+enum class FindType {
+    FIRST_CHARACTER,
+    FIRST_NON_CHARACTER
+};
+
+bool shouldSkipCharacter(const char c);
+size_t findFirstCharacter(std::string_view buffer);
+size_t findFirstNonCharacter(std::string_view buffer);
+size_t getNextWord(std::string_view buffer, std::string& word);
+size_t getTripletIndex(ssize_t firstWord, ssize_t offset);

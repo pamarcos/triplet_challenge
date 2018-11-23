@@ -1,28 +1,42 @@
-CXXFLAGS ?= -g -O2 -std=c++17 -Isrc
-SRC := $(wildcard src/*.cpp)
+CXXFLAGS ?= -g -O2
+CXXFLAGS_EXTRA := -std=c++17 -Isrc -pedantic -Wall -Wextra -Werror -MMD -MP
 BUILD_DIR := build
-OBJ := $(BUILD_DIR)/$(SRC:.cpp=.o)
+
+SRC := $(wildcard src/*.cpp)
+OBJ := $(foreach file,$(SRC),$(BUILD_DIR)/$(file:.cpp=.o))
+DEP := $(OBJ:.o=.d)
 OUTPUT := triplet_challenge
-UNIT_TEST := unit_test
+
+UT_SRC := $(wildcard test/*.cpp) $(filter-out src/main.cpp,$(SRC))
+UT_OBJ := $(foreach file,$(UT_SRC),$(BUILD_DIR)/$(file:.cpp=.o))
+UT_DEP := $(UT_OBJ:.o=.d)
+UT_OUTPUT := unit_test
+
+$(OUTPUT):
 
 all: $(OUTPUT) check
 
 $(BUILD_DIR):
-	mkdir -p $@/src $@/unit_test
+	mkdir -p $@/src $@/test
 
 $(BUILD_DIR)/%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $^
+	$(CXX) $(CXXFLAGS) $(CXXFLAGS_EXTRA) -c -o $@ $<
 
 $(OUTPUT): $(BUILD_DIR) $(OBJ)
-	$(CXX) -o $@ $(OBJ)
+	$(CXX) $(CXXFLAGS) $(CXXFLAGS_EXTRA) -o $@ $(OBJ)
 
-check: $(OUTPUT) $(UNIT_TEST)
-	./$(UNIT_TEST)
+check: $(OUTPUT) $(UT_OUTPUT)
+	./$(UT_OUTPUT)
 
-$(UNIT_TEST): test/unit_test.o $(BUILD_DIR)/src/triplet_challenge.o
-	$(CXX) $(CXXFLAGS) -o $@ $^
+$(UT_OUTPUT): $(BUILD_DIR) $(UT_OBJ)
+	$(CXX) $(CXXFLAGS) $(CXXFLAGS_EXTRA) -o $@ $(UT_OBJ)
 
 clean:
-	rm -rf $(BUILD_DIR) $(OUTPUT) $(UNIT_TEST)
+	rm -rf $(BUILD_DIR) $(OUTPUT) $(UT_OUTPUT)
 
 .PHONY: clean check
+
+dbg-%:
+	@echo "$* = $($*)"
+
+-include $(DEP) $(UT_DEP)
