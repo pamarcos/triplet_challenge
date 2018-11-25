@@ -50,27 +50,28 @@ The `script` part of Travis CI is the one that compiles your program. This is th
 
 1. Report the CPU info, in case it ever changes.
 2. Count the number of lines of code in the `src` directory using [cloc](https://github.com/AlDanial/cloc).
-3. Run the `triplet_challenge` using [hyperfine](https://github.com/sharkdp/hyperfine). We run the application 3 times to ensure the IO is cached (warmp up runs) and then compute the average of the next 10 runs.
-4. Run [Valgrind Massif](http://valgrind.org/docs/manual/ms-manual.html) to collect the actual RAM usage made by the application and show the results.
+3. Run the `triplet_challenge` binary once to check out the output.
+4. Benchmark the `triplet_challenge` binary using [hyperfine](https://github.com/sharkdp/hyperfine). We run the application 3 times to ensure the IO is cached (warmp up runs) and then compute the average of the next 10 runs.
+5. Run the `triplet_challenge` binary using [Valgrind Massif](http://valgrind.org/docs/manual/ms-manual.html) to collect the actual RAM usage made by the application and show the results.
 
 ## Ladder
 
 There are 3 main areas that I think would be interesting to compare: speed, memory and lines of code (without comments):
 
 ### Speed
-|User|Language|Time|Repo|Build|
-|----|--------|----|----|-----|
-|[pamarcos](https://github.com/pamarcos)|C++|174.3ms|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
+|#|User|Language|Time|Repo|Build|
+|-|----|--------|----|----|-----|
+|1|[pamarcos](https://github.com/pamarcos)|C++|174.3ms|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
 
 ### Memory
-|User|Language|Memory|Repo|Build|
-|----|--------|------|----|-----|
-|[pamarcos](https://github.com/pamarcos)|C++|16.24 MB|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
+|#|User|Language|Memory|Repo|Build|
+|-|----|--------|------|----|-----|
+|1|[pamarcos](https://github.com/pamarcos)|C++|16.24 MB|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
 
 ### Lines of code
-|User|Language|LOC|Repo|Build|
-|----|--------|---|----|-----|
-|[pamarcos](https://github.com/pamarcos)|C++|147|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
+|#|User|Language|LOC|Repo|Build|
+|-|----|--------|---|----|-----|
+|1|[pamarcos](https://github.com/pamarcos)|C++|147|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
 
 ## License
 

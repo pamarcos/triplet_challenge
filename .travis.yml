@@ -25,6 +25,7 @@ after_script:
   - wget https://github.com/sharkdp/hyperfine/releases/download/v1.3.0/hyperfine_1.3.0_amd64.deb && sudo dpkg -i hyperfine_1.3.0_amd64.deb
   - lscpu
   - cloc src
+  - ./triplet_challenge pg2009.txt
   - hyperfine -w 3 -m 10 "./triplet_challenge pg2009.txt"
   - valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out ./triplet_challenge pg2009.txt
   - ms_print valgrind.out
