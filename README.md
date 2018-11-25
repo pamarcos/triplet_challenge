@@ -24,12 +24,17 @@ bring them back - 133
 
 1. You can use any programming language, as long as it can be run on Linux. Why Linux? Because the Continuous Integration system that we are all going to use will use a Linux machine. This is done like that so that we all play with the same context. Do take into account that using languages that require a virtual machine will most likely result in a non-negligible overhead in terms of RAM usage. Feel free to tweak the parameters of the virtual machine to optimize that.
 2. You can't use any 3rd-party library for the task. Even a simple one. That means, no `npm`, `pip`, `conan`, or whatever. The reasoning for this is that the task is small enough to be done with what the language offers and so that others can easily understand in the vanilla version of the language what's happening under the hoods without any extra knowledge of frameworks or libraries.
-3. The file we will use to benchmark our program will be the free book [The Origin of Species by Means of Natural Selection by Charles Darwin](http://www.gutenberg.org/cache/epub/2009/pg2009.txt). The file is already included in the repo, so there is no need to download it separately. Its size is 1270822 bytes, containing 212199 words and 157858 triplets.
-4. Do not use any assumptions regarding the content of the file. The only assumptions that can be done are regarding the total size of the file.
+3. The file we will use to benchmark our program will be the free book [The Origin of Species by Means of Natural Selection by Charles Darwin](http://www.gutenberg.org/cache/epub/2009/pg2009.txt). The file is already included in the repo, so there is no need to download it separately. Its size is 1270822 bytes, containing 212199 words and 157858 triplets. The output of `triplet_challenge` using this file in my solution is:
+<pre>
+of the same - 320
+the same species - 130
+conditions of life - 125
+</pre>
+4. Do not make any assumptions regarding the content of the file. The only assumptions that can be done are regarding the total size of the file.
 
 ## How to compete
 
-1. Clone this repo.
+1. Fork this repo.
 2. Sign-in to [Travis CI](https://travis-ci.org) using your GitHub credentials. Enable the `triplet_challenge` project in [Travis CI repositories](https://travis-ci.org/account/repositories) so that it starts tracking the project to build new commits. If you don't see there your `triplet_challenge` project yet, try the `Sync account` button on the top left.
 3. Create a new branch for your work. e.g `git checkout -b my_branch`
 4. Implement your solution in the language of your choice, which output is a `triplet_challenge` binary on the root. Place your code under the `src` directory. Use a different directory for unit tests and the rest, since the `src` directory is the one that will be used to cout the lines of code of your solution. Please ensure you license all your code with the GPLv3 license and give credit if you are modifying an existing solution. One of this exercise's goal is that people can learn from other's code and improve it, without taking advantage of it.
@@ -50,22 +55,22 @@ The `script` part of Travis CI is the one that compiles your program. This is th
 
 ## Ladder
 
-There are 3 main areas that I think would be interesting to compare: speed, memory and lines of code
+There are 3 main areas that I think would be interesting to compare: speed, memory and lines of code (without comments):
 
 ### Speed
 |User|Language|Time|Repo|Build|
-|---|---|---|---|---|
-|   |   |   |   |   |
+|----|--------|----|----|-----|
+|[pamarcos](https://github.com/pamarcos)|C++|174.3ms|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
 
 ### Memory
-|User|Language|MB|Repo|Build|
-|---|---|---|---|---|
-|   |   |   |   |   |
+|User|Language|Memory|Repo|Build|
+|----|--------|------|----|-----|
+|[pamarcos](https://github.com/pamarcos)|C++|16.24 MB|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
 
 ### Lines of code
 |User|Language|LOC|Repo|Build|
-|---|---|---|---|---|
-|   |   |   |   |   |
+|----|--------|---|----|-----|
+|[pamarcos](https://github.com/pamarcos)|C++|147|[Repo](https://github.com/pamarcos/triplet_challenge)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/459486020)|
 
 ## License
 
