@@ -22,10 +22,9 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 
 #include "triplet_challenge.h"
-
-constexpr auto MAX_BUFFER = 2 * 1024 * 1024; // 2 MiB
 
 int main(int argc, char* argv[]) {
     // Ensure correct arguments
@@ -49,18 +48,12 @@ int main(int argc, char* argv[]) {
     const auto fileSize = fstream.tellg() - start;
     fstream.seekg(0, std::ios::beg);
 
-    if (fileSize > MAX_BUFFER) {
-        std::cerr << "The file size has " << fileSize << " bytes, which is greater than the maximum supported buffer "
-                     "size of " << MAX_BUFFER << " bytes. Please recompile using a bigger MAX_BUFFER value.\n";
-        return -1;
-    }
-
     // Read whole file into a buffer
-    char buffer[MAX_BUFFER];
+    std::vector<char> buffer(fileSize);
     std::cerr << "File size: " << fileSize << " bytes\n";
-    fstream.read(buffer, fileSize);
+    fstream.read(buffer.data(), fileSize);
 
-    auto triplets = calculateTriplets(buffer);
+    auto triplets = calculateTriplets(buffer.data());
     for (const auto& triplet : triplets) {
         std::cout << triplet.words << " - " << triplet.count << "\n";
     }

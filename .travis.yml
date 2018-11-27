@@ -1,6 +1,9 @@
 language: cpp
 os: linux
 dist: xenial
+env:
+  # Change the definitions if your binary or source folder are different
+  - SRC_DIR=src TRIPLET_CHALLENGE="./triplet_challenge pg2009.txt"
 addons:
   apt:
     sources:
@@ -24,8 +27,8 @@ script:
 after_script:
   - wget https://github.com/sharkdp/hyperfine/releases/download/v1.3.0/hyperfine_1.3.0_amd64.deb && sudo dpkg -i hyperfine_1.3.0_amd64.deb
   - lscpu
-  - cloc src
-  - ./triplet_challenge pg2009.txt
-  - hyperfine -w 3 -m 10 "./triplet_challenge pg2009.txt"
-  - valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out ./triplet_challenge pg2009.txt
+  - cloc $SRC_DIR
+  - $TRIPLET_CHALLENGE
+  - hyperfine -w 3 -m 10 "$TRIPLET_CHALLENGE"
+  - valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out $TRIPLET_CHALLENGE
   - ms_print valgrind.out
