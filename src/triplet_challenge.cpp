@@ -30,7 +30,7 @@
 #define logDebug(...)
 
 bool shouldSkipCharacter(const char c) {
-    return !((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')  || c == '\'' || (c >= '0' && c <= '9'));
+    return !(std::isalnum(c) || c == '\'');
 }
 
 size_t findGeneric(std::string_view buffer, FindType type) {

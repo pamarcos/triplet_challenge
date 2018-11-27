@@ -60,19 +60,19 @@ The `script` part of Travis CI is the one that compiles your program. This is th
 There are 3 main areas that I think would be interesting to compare: speed, memory and lines of code (without comments):
 
 ### Speed
-|#|User|Language|Time|Source|Build|
-|-|----|--------|----|------|-----|
-|1|[pamarcos](https://github.com/pamarcos)|C++|160.2 ms|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/460358402)|
+|#|User|Language|Time|Memory|LOC|Source|Build|
+|-|----|--------|---|----|------|------|-----|
+|1|[pamarcos](https://github.com/pamarcos)|C++|169.2 ms|16.23 MiB|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
 
 ### Memory
-|#|User|Language|Memory|Source|Build|
-|-|----|--------|------|------|-----|
-|1|[pamarcos](https://github.com/pamarcos)|C++|17.30 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/460358402)|
+|#|User|Language|Memory|Time|LOC|Source|Build|
+|-|----|--------|---|----|------|------|-----|
+|1|[pamarcos](https://github.com/pamarcos)|C++|16.23 MiB|169.2 ms|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
 
 ### Lines of code
-|#|User|Language|LOC|Source|Build|
-|-|----|--------|---|------|-----|
-|1|[pamarcos](https://github.com/pamarcos)|C++|142|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/460358402)|
+|#|User|Language|LOC|Time|Memory|Source|Build|
+|-|----|--------|---|----|------|------|-----|
+|1|[pamarcos](https://github.com/pamarcos)|C++|143|169.2 ms|16.23 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
 
 ## License
 

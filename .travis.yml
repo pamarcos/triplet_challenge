@@ -29,6 +29,6 @@ after_script:
   - lscpu
   - cloc $SRC_DIR
   - $TRIPLET_CHALLENGE
-  - hyperfine -w 3 -m 10 "$TRIPLET_CHALLENGE"
+  - hyperfine -w 3 -m 30 "$TRIPLET_CHALLENGE"
   - valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out $TRIPLET_CHALLENGE
   - ms_print valgrind.out

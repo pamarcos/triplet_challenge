@@ -21,8 +21,9 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
-#include <vector>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include "triplet_challenge.h"
 
@@ -36,24 +37,24 @@ int main(int argc, char* argv[]) {
     // Open file
     std::string filename{argv[1]};
     std::cerr << "Opening filename " << filename << "\n";
-    std::ifstream fstream{filename, std::ios::in};
-    if (!fstream.is_open()) {
+    int fd = open(filename.c_str(), O_RDONLY);
+    if (fd == -1) {
         std::cerr << "Error reading file " << filename << "\n";
         return -1;
     }
 
-    // Calculate file size
-    const auto start = fstream.tellg();
-    fstream.seekg(0, std::ios::end);
-    const auto fileSize = fstream.tellg() - start;
-    fstream.seekg(0, std::ios::beg);
+    // Get the size
+    struct stat sb;
+    if (fstat(fd, &sb) == -1) {
+        std::cerr << "Error getting stat of file " << filename << "\n";
+        return -1;
+    }
+    std::cerr << "File size: " << sb.st_size << " bytes\n";
 
-    // Read whole file into a buffer
-    std::vector<char> buffer(fileSize);
-    std::cerr << "File size: " << fileSize << " bytes\n";
-    fstream.read(buffer.data(), fileSize);
+    // map the whole file into virtual memory. Let's delegate the implementation of reading in chunks to the OS
+    const char* buffer = static_cast<char*>(mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0));
 
-    auto triplets = calculateTriplets(buffer.data());
+    auto triplets = calculateTriplets(buffer);
     for (const auto& triplet : triplets) {
         std::cout << triplet.words << " - " << triplet.count << "\n";
     }
