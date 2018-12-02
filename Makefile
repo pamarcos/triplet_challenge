@@ -1,4 +1,4 @@
-CXXFLAGS ?= -g -O2
+CXXFLAGS ?= -g -O3
 CXXFLAGS_EXTRA := -std=c++17 -Isrc -pedantic -Wall -Wextra -Werror -MMD -MP
 BUILD_DIR := build
 

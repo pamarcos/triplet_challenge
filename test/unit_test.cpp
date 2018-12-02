@@ -66,9 +66,9 @@ TEST_CASE("find first non character", "[utility]") {
 TEST_CASE("get next word", "[utility]") {
     std::string word{"foo"};
     std::string_view buffer{"this\t\n?is.=)a{small}$%test   .\n"};
-    size_t offset = 0;
+    std::size_t offset = 0;
 
-    auto getNextWordTest = [&](const std::string& testWord, size_t testOffset) {
+    auto getNextWordTest = [&](const std::string& testWord, std::size_t testOffset) {
         offset += getNextWord(buffer.substr(offset), word);
         REQUIRE(word == testWord);
         REQUIRE(offset == testOffset);
@@ -116,12 +116,12 @@ TEST_CASE("get triplet index", "[utility") {
 }
 
 TEST_CASE("calculate triplet", "[triplet]") {
-    auto result = calculateTriplets("foo!?  bar!??? ye?!!. foo bar ye ye!?!?!?!:: . This is this foo bar ye bar that "
-                                    "this bar ye foo");
+    auto result = calculateTriplets("foo!?  bar!??? ye?!!. foo bar ye foo bar ye!?!?!?!:: . This is this foo bar ye bar "
+                                    "that this bar ye foo");
     REQUIRE(result[0].words == "foo bar ye");
-    REQUIRE(result[0].count == 3);
+    REQUIRE(result[0].count == 4);
     REQUIRE(result[1].words == "bar ye foo");
-    REQUIRE(result[1].count == 2);
+    REQUIRE(result[1].count == 3);
     REQUIRE(result[2].words == "ye foo bar");
-    REQUIRE(result[2].count == 1);
+    REQUIRE(result[2].count == 2);
 }

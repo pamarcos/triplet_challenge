@@ -33,7 +33,7 @@ bool shouldSkipCharacter(const char c) {
     return !(std::isalnum(c) || c == '\'');
 }
 
-size_t findGeneric(std::string_view buffer, FindType type) {
+std::size_t findGeneric(std::string_view buffer, FindType type) {
     auto method = [type](auto c) {
         if (type == FindType::FIRST_CHARACTER) {
             return shouldSkipCharacter(c);
@@ -42,7 +42,7 @@ size_t findGeneric(std::string_view buffer, FindType type) {
         }
     };
 
-    size_t offset = 0;
+    std::size_t offset = 0;
     for (const auto& c : buffer) {
         if (method(c)) {
             offset++;
@@ -54,15 +54,15 @@ size_t findGeneric(std::string_view buffer, FindType type) {
     return offset;
 }
 
-size_t findFirstCharacter(std::string_view buffer) {
+std::size_t findFirstCharacter(std::string_view buffer) {
     return findGeneric(buffer, FindType::FIRST_CHARACTER);
 }
 
-size_t findFirstNonCharacter(std::string_view buffer) {
+std::size_t findFirstNonCharacter(std::string_view buffer) {
     return findGeneric(buffer, FindType::FIRST_NON_CHARACTER);
 }
 
-size_t getNextWord(std::string_view buffer, std::string& word) {
+std::size_t getNextWord(std::string_view buffer, std::string& word) {
     word.clear();
 
     // Find the current word and store it in the variable
@@ -78,7 +78,7 @@ size_t getNextWord(std::string_view buffer, std::string& word) {
     return offset;
 }
 
-size_t getTripletIndex(ssize_t firstWord, ssize_t offset) {
+std::size_t getTripletIndex(ssize_t firstWord, ssize_t offset) {
     firstWord %= 3;
     offset %= 3;
     return (firstWord + (offset < 0 ? offset + 3 : offset)) % 3;
@@ -86,14 +86,14 @@ size_t getTripletIndex(ssize_t firstWord, ssize_t offset) {
 
 TripletResult calculateTriplets(std::string_view buffer) {
     TripletResult result;
-    logDebug("buffer passed with size %zu bytes\n", buffer.size());
-
     std::array<std::string, 3> words;
-    size_t firstWord = 0;
-    size_t offset = 0;
-    std::unordered_map<std::string, size_t> map;
+    std::size_t firstWord = 0;
+    std::size_t offset = 0;
+    std::unordered_map<std::string, std::size_t> map;
     std::string tripletKey;
-    size_t numberOfWords = 0;
+    std::size_t numberOfWords = 0;
+
+    logDebug("Buffer passed with size %zu bytes\n", buffer.size());
 
     while (offset < buffer.size()) {
         auto& word = words[firstWord];
@@ -111,7 +111,7 @@ TripletResult calculateTriplets(std::string_view buffer) {
             logDebug("Increasing triplet \"%s\" count to %zu\n", tripletKey.c_str(), count);
 
             // Update the result
-            for (size_t i = 0; i < result.size(); ++i) {
+            for (std::size_t i = 0; i < result.size(); ++i) {
                 if (count > result[i].count) {
                     auto triplet = Triplet{tripletKey, count};
                     logDebug("Updating top triplet \"%s\" with count %zu\n", tripletKey.c_str(), count);

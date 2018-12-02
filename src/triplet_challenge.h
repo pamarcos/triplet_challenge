@@ -27,7 +27,7 @@
 // API
 struct Triplet {
     std::string words;
-    size_t count = 0;
+    std::size_t count = 0;
 
     bool operator>(const Triplet& other) const {
         return count > other.count;
@@ -49,7 +49,7 @@ enum class FindType {
 };
 
 bool shouldSkipCharacter(const char c);
-size_t findFirstCharacter(std::string_view buffer);
-size_t findFirstNonCharacter(std::string_view buffer);
-size_t getNextWord(std::string_view buffer, std::string& word);
-size_t getTripletIndex(ssize_t firstWord, ssize_t offset);
+std::size_t findFirstCharacter(std::string_view buffer);
+std::size_t findFirstNonCharacter(std::string_view buffer);
+std::size_t getNextWord(std::string_view buffer, std::string& word);
+std::size_t getTripletIndex(ssize_t firstWord, ssize_t offset);
