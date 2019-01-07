@@ -1,6 +1,9 @@
 language: cpp
 os: linux
 dist: xenial
+branches:
+  except:
+    - master
 env:
   # Change the definitions if your binary or source folder are different
   - SRC_DIR=src TRIPLET_CHALLENGE="./triplet_challenge pg2009.txt"
@@ -8,20 +11,15 @@ addons:
   apt:
     sources:
       # Include here any new source that you may need to install a package
-      - ubuntu-toolchain-r-test # remove if not using g++ for C++
     packages:
       # Required packages to run the benchmark and collect results
       - valgrind
       - cloc
       # Include now the specific packages that you need
-      - g++-8
 
 # Modify the script lines to compile and run your program. The output binary needs to be called `triplet_challenge`
 script:
-  - export CXX=g++-8
-  - $CXX --version
-  - make
-  - make check
+  # Take a look at https://github.com/pamarcos/triplet_challenge/blob/cpp/.travis.yml to see an example
 
 # Do not change the `after_script` lines since they are used to collect results to compare with other implementations
 after_script:

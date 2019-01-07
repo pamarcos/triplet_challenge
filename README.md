@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/pamarcos/triplet_challenge.svg?branch=master)](https://travis-ci.org/pamarcos/triplet_challenge)
-
 # Triplet Challenge
 
 *Triplet Challenge*'s goal is to encourage people to implement a small task in the programming language of their choice aiming at speed and low memory consumption. It borns from reading this [post](https://elixirforum.com/t/i-failed-my-tech-challenge-today-for-a-job-interview-i-dont-think-i-was-given-a-fair-chance/17928) about the tech challenge of an interview. The output of this experiment is to see how even a simple challenge can be implemented in many different ways with a wide variety of results. It would be interesting to see how much we can squeeze of the CPU to get the program to complete its task as fast as possible while maintaining a low memory footprint.
@@ -62,7 +60,7 @@ There are 3 main areas that I think would be interesting to compare: speed, memo
 ### Speed
 |#|User|Language|Time|Memory|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
-|1|[pamarcos](https://github.com/pamarcos)|C++|169.2 ms|16.23 MiB|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
+|1|[pamarcos](https://github.com/pamarcos)|C++|169.2 ms|16.23 MiB|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
 |2|[javsanchez](https://github.com/javsanchez)|C#|848.6 ms|Valgrind error|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
 |3|[javsanchez](https://github.com/javsanchez)|Python|1199 ms|8.425 MiB|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
 
@@ -70,7 +68,7 @@ There are 3 main areas that I think would be interesting to compare: speed, memo
 |#|User|Language|Memory|Time|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
 |1|[javsanchez](https://github.com/javsanchez)|Python|8.425 MiB|1199 ms|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
-|2|[pamarcos](https://github.com/pamarcos)|C++|16.23 MiB|169.2 ms|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
+|2|[pamarcos](https://github.com/pamarcos)|C++|16.23 MiB|169.2 ms|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
 |3|[javsanchez](https://github.com/javsanchez)|C#|Valgrind error|848.6 ms|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
 
 ### Lines of code
@@ -78,7 +76,7 @@ There are 3 main areas that I think would be interesting to compare: speed, memo
 |-|----|--------|---|----|------|------|-----|
 |1|[javsanchez](https://github.com/javsanchez)|Python|47|1199 ms|8.425 MiB|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
 |2|[javsanchez](https://github.com/javsanchez)|C#|100|848.6 ms|Valgrind error|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
-|3|[pamarcos](https://github.com/pamarcos)|C++|143|169.2 ms|16.23 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
+|3|[pamarcos](https://github.com/pamarcos)|C++|143|169.2 ms|16.23 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
 
 ## License
 
