@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/pamarcos/triplet_challenge.svg?branch=master)](https://travis-ci.org/pamarcos/triplet_challenge)
-
 # Triplet Challenge
 
 *Triplet Challenge*'s goal is to encourage people to implement a small task in the programming language of their choice aiming at speed and low memory consumption. It borns from reading this [post](https://elixirforum.com/t/i-failed-my-tech-challenge-today-for-a-job-interview-i-dont-think-i-was-given-a-fair-chance/17928) about the tech challenge of an interview. The output of this experiment is to see how even a simple challenge can be implemented in many different ways with a wide variety of results. It would be interesting to see how much we can squeeze of the CPU to get the program to complete its task as fast as possible while maintaining a low memory footprint.

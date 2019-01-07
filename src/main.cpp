@@ -3,20 +3,20 @@
  *
  * Copyright (C) 2018 Pablo Marcos Oltra
  *
- * This file is part of gencc.
+ * This file is part of triplet_challenge.
  *
- * gencc is free software: you can redistribute it and/or modify
+ * triplet_challenge is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * gencc is distributed in the hope that it will be useful,
+ * triplet_challenge is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with gencc.  If not, see <http://www.gnu.org/licenses/>.
+ * along with triplet_challenge.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <iostream>
@@ -52,12 +52,14 @@ int main(int argc, char* argv[]) {
     std::cerr << "File size: " << sb.st_size << " bytes\n";
 
     // map the whole file into virtual memory. Let's delegate the implementation of reading in chunks to the OS
-    const char* buffer = static_cast<char*>(mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0));
+    void* buffer = mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 
-    auto triplets = calculateTriplets(buffer);
+    auto triplets = calculateTriplets(static_cast<char*>(buffer));
     for (const auto& triplet : triplets) {
         std::cout << triplet.words << " - " << triplet.count << "\n";
     }
+
+    munmap(buffer, sb.st_size);
 
     return 0;
 }

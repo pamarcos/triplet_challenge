@@ -1,6 +1,9 @@
 language: cpp
 os: linux
 dist: xenial
+branches:
+  except:
+    - master
 env:
   # Change the definitions if your binary or source folder are different
   - SRC_DIR=src TRIPLET_CHALLENGE="./triplet_challenge pg2009.txt"
