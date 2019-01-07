@@ -22,6 +22,8 @@
 #include "triplet_challenge.h"
 
 #include <unordered_map>
+#include <thread>
+#include <vector>
 
 //#define logDebug(...) fprintf(stderr, "debug: " __VA_ARGS__)
 #define logDebug(...)
@@ -103,47 +105,100 @@ std::size_t sanitizeBuffer(char* buffer, const std::size_t length, std::size_t& 
     return write - buffer;
 }
 
-TripletResult calculateTriplets(char* buffer, std::size_t length) {
-    TripletResult result;
+using TripletMap = std::unordered_map<std::string_view, std::size_t>;
+
+void calculateTripletsForOneThread(size_t threadNumber, std::string_view buffer, TripletMap& map, std::size_t maxNumberOfBuckets) {
+    (void)threadNumber;
     std::size_t offset = 0;
-    std::size_t numberOfWords = 0;
 
-    logDebug("Buffer passed with size %zu bytes\n", length);
-    length = sanitizeBuffer(buffer, length, numberOfWords);
+    // Ensure the map will not need resizing
+    map.reserve(maxNumberOfBuckets);
 
-    // We need to ensure that the hash map will never be resized to avoid regenerating the whole table
-    const auto maxNumberOfBuckets = numberOfWords - 2;
-    std::unordered_map<std::string_view, std::size_t> map(maxNumberOfBuckets);
-    map.max_load_factor(maxNumberOfBuckets);
+    logDebug("[%zu] Buffer passed with size %zu bytes\n", threadNumber, buffer.size());
 
-    std::string_view text{buffer, length};
+    while (offset < buffer.size()) {
+        const auto secondWordOffset = offset + jumpNextWord(buffer.substr(offset, buffer.size() - offset));
+        const auto thirdWordOffset = secondWordOffset + jumpNextWord(buffer.substr(secondWordOffset, buffer.size() - secondWordOffset));
+        const auto tripletEndOffset = thirdWordOffset + findFirstNonCharacter(buffer.substr(thirdWordOffset, buffer.size() - thirdWordOffset));
+        std::string_view tripletKey = buffer.substr(offset, tripletEndOffset - offset);
 
-    while (offset < length) {
-        const auto secondWordOffset = offset + jumpNextWord(text.substr(offset, text.size() - offset));
-        const auto thirdWordOffset = secondWordOffset + jumpNextWord(text.substr(secondWordOffset, text.size() - secondWordOffset));
-        const auto tripletEndOffset = thirdWordOffset + findFirstNonCharacter(text.substr(thirdWordOffset, text.size() - thirdWordOffset));
-        std::string_view tripletKey = text.substr(offset, tripletEndOffset - offset);
-
-        logDebug("Triplet extracted: %.*s\n", static_cast<int>(tripletKey.size()), tripletKey.data());
+        logDebug("[%zu] Triplet extracted: %.*s\n", threadNumber, static_cast<int>(tripletKey.size()), tripletKey.data());
 
         if (offset != secondWordOffset && thirdWordOffset != secondWordOffset && tripletEndOffset != thirdWordOffset) {
-            map[tripletKey]++;
-            auto count = map[tripletKey];(void)count;
-            logDebug("Increasing triplet \"%.*s\" count to %zu\n", static_cast<int>(tripletKey.size()), tripletKey.data(), count);
+            auto count = ++map[tripletKey];
+            (void)count;
+            logDebug("[%zu] Increasing triplet \"%.*s\" count to %u\n", threadNumber, static_cast<int>(tripletKey.size()), tripletKey.data(), count);
         }
 
         offset = secondWordOffset;
     }
+}
+
+TripletResult calculateTriplets(char* buffer, std::size_t length) {
+    TripletResult result;
+    std::size_t startOffset, endOffset = 0;
+    std::size_t numberOfWords = 0;
+    std::size_t numThreads = std::thread::hardware_concurrency() > 0 ? std::thread::hardware_concurrency() : 1;
+    std::vector<std::unique_ptr<std::thread>> threads(numThreads);
+
+    logDebug("Buffer passed with size %zu bytes\n", length);
+    length = sanitizeBuffer(buffer, length, numberOfWords);
+
+    // We need to ensure that the hash map will never be resized to avoid rehashing the whole table
+    const auto maxNumberOfBuckets = numberOfWords - 2;
+    std::vector<TripletMap> maps(numThreads);
+
+    std::string_view text{buffer, length};
+    std::size_t chunkSize = text.size() / numThreads;
+
+    // Split buffer into chunks of similar size
+    for (std::size_t nThread = 0; nThread < numThreads; ++nThread) {
+        startOffset = endOffset;
+        endOffset += chunkSize;
+        std::size_t chunkOffset = endOffset;
+        if (endOffset < text.size()) {
+            endOffset += jumpNextWord(text.substr(endOffset, text.size() - endOffset));
+            chunkOffset = endOffset;
+            for (std::size_t i = 0; i < 2; ++i) {
+                chunkOffset += jumpNextWord(text.substr(chunkOffset, text.size() - chunkOffset));
+            }
+        } else {
+            endOffset = text.size();
+            chunkOffset = endOffset;
+        }
+        const auto bufferSize = chunkOffset - startOffset;
+        if (bufferSize > 0) {
+            auto threadBuffer = text.substr(startOffset, bufferSize);
+            logDebug("Chunk for thread %zu: %.*s\n", nThread, static_cast<int>(threadBuffer.size()), threadBuffer.data());
+            threads[nThread] = std::make_unique<std::thread>([nThread, threadBuffer, &maps, maxNumberOfBuckets] {
+                calculateTripletsForOneThread(nThread, threadBuffer, maps[nThread], maxNumberOfBuckets);
+            });
+        }
+    }
+
+    for (auto& thread : threads) {
+        if (thread != nullptr) {
+            thread->join();
+        }
+    }
+
+    // Collect results from all maps and consolidate into a final map
+    TripletMap finalMap(maxNumberOfBuckets);
+    for (const auto& map : maps) {
+        for (const auto& value : map) {
+            finalMap[value.first] += value.second;
+        }
+    }
 
     // Take the 3 triplets with higher count
-    for (const auto& value : map) {
+    for (const auto& value : finalMap) {
         const auto& tripletKey = value.first;
-        const auto& count = value.second;
+        const auto count = value.second;
 
         for (std::size_t i = 0; i < result.size(); ++i) {
             if (count > result[i].count) {
                 auto triplet = Triplet{std::string{tripletKey}, count};
-                logDebug("Updating top triplet \"%.*s\" with count %zu\n", static_cast<int>(tripletKey.size()), tripletKey.data(), count);
+                logDebug("Updating top triplet \"%.*s\" with count %u\n", static_cast<int>(tripletKey.size()), tripletKey.data(), count);
 
                 for (auto j = i; j < result.size(); ++j) {
                     triplet = std::exchange(result[j], triplet);
@@ -159,10 +214,10 @@ TripletResult calculateTriplets(char* buffer, std::size_t length) {
         }
     }
 
-    fprintf(stderr, "Number of words: %zu\n"
-                    "Number of triplets: %zu\n"
-                    "Map state: bucket_count %zu, max_bucket_count %zu, load_factor %f\n\n",
-            numberOfWords, map.size(), map.bucket_count(), map.max_bucket_count(), map.load_factor());
+    fprintf(stderr, "Used %zu threads\n"
+                    "Number of words: %zu\n"
+                    "Number of triplets: %zu\n",
+            numThreads, numberOfWords, finalMap.size());
 
     return result;
 }
