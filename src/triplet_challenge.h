@@ -40,7 +40,7 @@ struct Triplet {
 
 using TripletResult = std::array<Triplet, 3>;
 
-TripletResult calculateTriplets(std::string_view buffer);
+TripletResult calculateTriplets(char* buffer, std::size_t length);
 
 // Internal stuff to unit test
 enum class FindType {
@@ -51,5 +51,5 @@ enum class FindType {
 bool shouldSkipCharacter(const char c);
 std::size_t findFirstCharacter(std::string_view buffer);
 std::size_t findFirstNonCharacter(std::string_view buffer);
-std::size_t getNextWord(std::string_view buffer, std::string& word);
-std::size_t getTripletIndex(ssize_t firstWord, ssize_t offset);
+std::size_t jumpNextWord(std::string_view buffer);
+std::size_t sanitizeBuffer(char* buffer, const std::size_t length, std::size_t& words);

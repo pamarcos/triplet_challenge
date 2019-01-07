@@ -1,5 +1,5 @@
-CXXFLAGS ?= -g -O3
-CXXFLAGS_EXTRA := -std=c++17 -Isrc -pedantic -Wall -Wextra -Werror -MMD -MP
+CXXFLAGS ?= -O3
+CXXFLAGS_EXTRA := -march=native -std=c++17 -Isrc -pedantic -Wall -Wextra -Werror -MMD -MP
 BUILD_DIR := build
 
 SRC := $(wildcard src/*.cpp)

@@ -52,9 +52,9 @@ int main(int argc, char* argv[]) {
     std::cerr << "File size: " << sb.st_size << " bytes\n";
 
     // map the whole file into virtual memory. Let's delegate the implementation of reading in chunks to the OS
-    void* buffer = mmap(NULL, sb.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    void* buffer = mmap(NULL, sb.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);
 
-    auto triplets = calculateTriplets(static_cast<char*>(buffer));
+    auto triplets = calculateTriplets(static_cast<char*>(buffer), sb.st_size);
     for (const auto& triplet : triplets) {
         std::cout << triplet.words << " - " << triplet.count << "\n";
     }

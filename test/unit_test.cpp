@@ -63,61 +63,43 @@ TEST_CASE("find first non character", "[utility]") {
     REQUIRE(findFirstNonCharacter("?;.'") == 0);
 }
 
-TEST_CASE("get next word", "[utility]") {
-    std::string word{"foo"};
+TEST_CASE("jump next word", "[utility]") {
     std::string_view buffer{"this\t\n?is.=)a{small}$%test   .\n"};
     std::size_t offset = 0;
 
-    auto getNextWordTest = [&](const std::string& testWord, std::size_t testOffset) {
-        offset += getNextWord(buffer.substr(offset), word);
-        REQUIRE(word == testWord);
+    auto jumpNextWordTest = [&](std::size_t testOffset) {
+        offset += jumpNextWord(buffer.substr(offset));
         REQUIRE(offset == testOffset);
     };
 
-    getNextWordTest("this", 7);
-    getNextWordTest("is", 12);
-    getNextWordTest("a", 14);
-    getNextWordTest("small", 22);
-    getNextWordTest("test", 31);
+    jumpNextWordTest(7);
+    jumpNextWordTest(12);
+    jumpNextWordTest(14);
+    jumpNextWordTest(22);
+    jumpNextWordTest(31);
     REQUIRE(offset == buffer.size());
 
     buffer = "yet another test";
     offset = 0;
-    getNextWordTest("yet", 4);
-    getNextWordTest("another", 12);
-    getNextWordTest("test", 16);
+    jumpNextWordTest(4);
+    jumpNextWordTest(12);
+    jumpNextWordTest(16);
     REQUIRE(offset == buffer.size());
 }
 
-TEST_CASE("get triplet index", "[utility") {
-    REQUIRE(getTripletIndex(0, 0) == 0);
-    REQUIRE(getTripletIndex(0, 1) == 1);
-    REQUIRE(getTripletIndex(0, 2) == 2);
-    REQUIRE(getTripletIndex(0, 3) == 0);
-    REQUIRE(getTripletIndex(0, 4) == 1);
-    REQUIRE(getTripletIndex(0, 5) == 2);
-    REQUIRE(getTripletIndex(0, -1) == 2);
-    REQUIRE(getTripletIndex(0, -2) == 1);
-    REQUIRE(getTripletIndex(0, -3) == 0);
-    REQUIRE(getTripletIndex(0, -4) == 2);
-    REQUIRE(getTripletIndex(0, -5) == 1);
-
-    REQUIRE(getTripletIndex(2, 0) == 2);
-    REQUIRE(getTripletIndex(2, 1) == 0);
-    REQUIRE(getTripletIndex(2, 2) == 1);
-    REQUIRE(getTripletIndex(2, 3) == 2);
-    REQUIRE(getTripletIndex(2, 4) == 0);
-    REQUIRE(getTripletIndex(2, 5) == 1);
-    REQUIRE(getTripletIndex(2, -1) == 1);
-    REQUIRE(getTripletIndex(2, -2) == 0);
-    REQUIRE(getTripletIndex(2, -3) == 2);
-    REQUIRE(getTripletIndex(2, -4) == 1);
-    REQUIRE(getTripletIndex(2, -5) == 0);
+TEST_CASE("sanitize buffer", "[utility]") {
+    char buffer[] = "ThiS.- SiMPlE. .*+-tESt";
+    std::size_t numberOfWords = 12345;
+    const auto length = sanitizeBuffer(buffer, sizeof(buffer) - 1, numberOfWords);
+    REQUIRE(numberOfWords == 3);
+    REQUIRE(length == 16);
+    REQUIRE(std::string(buffer, length) == "this simple test");
 }
 
 TEST_CASE("calculate triplet", "[triplet]") {
-    auto result = calculateTriplets("foo!?  bar!??? ye?!!. foo bar ye foo bar ye!?!?!?!:: . This is this foo bar ye bar "
-                                    "that this bar ye foo");
+    char buffer[] = "foo!?  bar!??? ye?!!. foo bar ye foo bar ye!?!?!?!:: . This is this foo bar ye bar "
+                  "that this bar ye foo";
+    auto result = calculateTriplets(buffer, sizeof(buffer) - 1);
     REQUIRE(result[0].words == "foo bar ye");
     REQUIRE(result[0].count == 4);
     REQUIRE(result[1].words == "bar ye foo");
