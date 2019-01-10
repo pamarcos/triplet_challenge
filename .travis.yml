@@ -3,7 +3,7 @@ os: linux
 dist: xenial
 branches:
   except:
-    - master
+    - master # Skip building master since updating the README.md doesn't need to trigger a new build
 env:
   # Change the definitions if your binary or source folder are different
   - SRC_DIR=src TRIPLET_CHALLENGE="./triplet_challenge pg2009.txt"
@@ -12,21 +12,13 @@ addons:
     sources:
       # Include here any new source that you may need to install a package
     packages:
-      # Required packages to run the benchmark and collect results
-      - valgrind
-      - cloc
-      # Include now the specific packages that you need
+      # Include the specific packages that you need
 
-# Modify the script lines to compile and run your program. The output binary needs to be called `triplet_challenge`
+# Modify the script lines to compile and program
 script:
-  # Take a look at https://github.com/pamarcos/triplet_challenge/blob/cpp/.travis.yml to see an example
+  # Take a look at https://github.com/pamarcos/triplet_challenge/blob/cpp/.travis.yml to see a full example of a C++ build
+  - $TRIPLET_CHALLENGE | tail -n 3 | diff -u expected_result.txt - # Check that the result is the expected one
 
-# Do not change the `after_script` lines since they are used to collect results to compare with other implementations
-after_script:
-  - wget https://github.com/sharkdp/hyperfine/releases/download/v1.3.0/hyperfine_1.3.0_amd64.deb && sudo dpkg -i hyperfine_1.3.0_amd64.deb
-  - lscpu
-  - cloc $SRC_DIR
-  - $TRIPLET_CHALLENGE
-  - hyperfine -w 3 -m 30 "$TRIPLET_CHALLENGE"
-  - valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out $TRIPLET_CHALLENGE
-  - ms_print valgrind.out
+# Do not change the `after_success` lines since they are used to collect results to compare with other implementations
+after_success:
+  - bash after_success.sh
