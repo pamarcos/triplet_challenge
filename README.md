@@ -1,3 +1,4 @@
+# [Go to Ladder](#ladder)
 # Triplet Challenge
 
 *Triplet Challenge*'s goal is to encourage people to implement a small task in the programming language of their choice aiming at speed and low memory consumption. It borns from reading this [post](https://elixirforum.com/t/i-failed-my-tech-challenge-today-for-a-job-interview-i-dont-think-i-was-given-a-fair-chance/17928) about the tech challenge of an interview. The output of this experiment is to see how even a simple challenge can be implemented in many different ways with a wide variety of results. It would be interesting to see how much we can squeeze of the CPU to get the program to complete its task as fast as possible while maintaining a low memory footprint.
@@ -36,47 +37,51 @@ conditions of life - 125
 2. Sign-in to [Travis CI](https://travis-ci.org) using your GitHub credentials. Enable the `triplet_challenge` project in [Travis CI repositories](https://travis-ci.org/account/repositories) so that it starts tracking the project to build new commits. If you don't see there your `triplet_challenge` project yet, try the `Sync account` button on the top left.
 3. Create a new branch for your work. e.g `git checkout -b java`. Do not commit to the master branch, so that you can easily fetch for updates from original repo, rebase, etc. Also, this makes it easier to others to add your remote to their already-existing repo and check out your work.
 4. Implement your solution in the language of your choice. Use a different directory for unit tests and the rest, since the `src` directory is the one that will be used (by default) to count the lines of code of your solution. Please ensure you license all your code with the GPLv3 license and give credit if you are modifying an existing solution. One of this exercise's goal is that people can learn from other's code and improve it, without taking advantage of it.
-5. Test your solution against the `pg2009.txt` file, write unit tests if needed, etc.
-6. Once you are happy with your solution, modify the [.travis.yml](https://github.com/pamarcos/triplet_challenge/blob/master/.travis.yml) file that Travis CI will use to build and benchmark your solution. Take into account that all our solutions will use the same hardware running Ubuntu 16.04 on a **2-core Intel(R) Xeon(R) CPU @ 2.30GHz with 7.5GB of RAM**. You may need a few attempts to get the Travis CI configuration right if you have never used it before. I'd suggest to use an Ubuntu 16.04 docker container to test which packages need to be downloaded.
-7. Push your new branch to your GitHub fork.
-8. Check the build on [https://travis-ci.org/[user]/triplet_challenge/builds](https://travis-ci.org/[user]/triplet_challenge/builds). Pay attention the log to see whether it succeded or not and check out the benchmark results.
-9. If you want to participate in the public ladder, create a PR to the original `triplet_challenge` repo or open an issue with all the details needed to add a new row with your results.
-10. Feel free to have a different solution for each category in the ladder. The easiest way is to create a new branch to compete in each category.
+5. Make sure you are closing the file `pg2009.txt` only at the very end of your application, since this will be used to benchmark your algorithm.
+6. Test your solution against the `pg2009.txt` file, write unit tests if needed, etc.
+7. Once you are happy with your solution, modify the [.travis.yml](https://github.com/pamarcos/triplet_challenge/blob/master/.travis.yml) file that Travis CI will use to build and benchmark your solution. Take into account that all our solutions will use the same hardware running Ubuntu 16.04 on a **2-core Intel(R) Xeon(R) CPU @ 2.30GHz with 7.5GB of RAM**. You may need a few attempts to get the Travis CI configuration right if you have never used it before. I'd suggest to use an Ubuntu 16.04 docker container to test which packages need to be downloaded.
+8. Push your new branch to your GitHub fork.
+9. Check the build on [https://travis-ci.org/[user]/triplet_challenge/builds](https://travis-ci.org/[user]/triplet_challenge/builds). Pay attention the log to see whether it succeded or not and check out the benchmark results.
+10. If you want to participate in the public [ladder](#ladder), create a PR to the original `triplet_challenge` repo or open an issue with all the details needed to add a new row with your results.
+11. Feel free to have a different solution for each category in the [ladder](#ladder). The easiest way is to create a new branch to compete in each category.
 
 ## Benchmark on Travis CI
 
-The `script` part of Travis CI is the one that compiles your program. This is the part you should modify, along with the `addons:apt:packages` that you need to install on Ubuntu. The `after_script` part should never be modified, since it ensures we all execute the benchmark with the same conditions. This part does the following:
+The `script` part of Travis CI is the one that compiles your program. This is the part you should modify, along with the `addons:apt:packages` that you need to install on Ubuntu. The `after_success` part should never be modified, since it ensures we all execute the benchmark with the same conditions. This part does the following:
 
 1. Report the CPU info, in case it ever changes.
 2. Count the number of lines of code in the `src` directory using [cloc](https://github.com/AlDanial/cloc).
-3. Run the `triplet_challenge` binary once to check out the output.
-4. Benchmark the `triplet_challenge` binary using [hyperfine](https://github.com/sharkdp/hyperfine). We run the application 3 times to ensure the IO is cached (warmp up runs) and then compute the average of the next 10 runs.
-5. Run the `triplet_challenge` binary using [Valgrind Massif](http://valgrind.org/docs/manual/ms-manual.html) to collect the actual RAM usage made by the application and show the results.
+3. Benchmark the speed using [hyperfine](https://github.com/sharkdp/hyperfine). We run the application 3 times before the benchmark to ensure the IO is cached (warmp up runs) and then compute the average of the next 30 runs. In this step we inject the [triplet_challenge_stats](https://github.com/pamarcos/triplet_challenge_stats) library to hijack the `open` and `close` calls so that we measure the time your solution takes without taking into account the time it takes to boot the VM, initialize the runtime, etc. This is why in step 5 of previous section it was mentioned that you need to make sure to close the `pg2009.txt` at the very end of your application. If you don't explicitly close it, the clock will stop when the application finishes anyway. The issue is if you read the whole file, close it and then run your algorithm. That would trick the benchmark and would be considered as cheating :P.
+4. Benchmark the memory usage using [GNU time](https://www.gnu.org/software/time/). We consider the `Maximum resident set size` as the value to compare against.
+5. Benchmark the memory usage using [Valgrind Massif](http://valgrind.org/docs/manual/ms-manual.html) to collect the actual RAM usage made by the application and show the results. This doesn't seem to work properly with some VMs and some languages, which is why we use [GNU time](https://www.gnu.org/software/time/) as a fallback plan in point 
 
-## Ladder
+## Ladder<a name="ladder"></a>
 
 There are 3 main areas that I think would be interesting to compare: speed, memory and lines of code (without comments):
 
 ### Speed
 |#|User|Language|Time|Memory|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
-|1|[pamarcos](https://github.com/pamarcos)|C++|169.2 ms|16.23 MiB|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
-|2|[javsanchez](https://github.com/javsanchez)|C#|848.6 ms|Valgrind error|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
-|3|[javsanchez](https://github.com/javsanchez)|Python|1199 ms|8.425 MiB|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
+|1|[pamarcos](https://github.com/pamarcos)|C++|86.6 ms|10.17 MiB|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/476792919)|
+|2|[pamarcos](https://github.com/pamarcos)|C++|109.5 ms|10.17 MiB|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/476792880)|
+|3|[javsanchez](https://github.com/javsanchez)|C#|848.6 ms|Valgrind error|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
+|4|[javsanchez](https://github.com/javsanchez)|Python|1199 ms|8.425 MiB|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
 
 ### Memory
 |#|User|Language|Memory|Time|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
 |1|[javsanchez](https://github.com/javsanchez)|Python|8.425 MiB|1199 ms|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
-|2|[pamarcos](https://github.com/pamarcos)|C++|16.23 MiB|169.2 ms|143|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
-|3|[javsanchez](https://github.com/javsanchez)|C#|Valgrind error|848.6 ms|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
+|2|[pamarcos](https://github.com/pamarcos)|C++|10.17 MiB|109.5 ms|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/476792880)|
+|3|[pamarcos](https://github.com/pamarcos)|C++|10.17 MiB|86.6 ms|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/476792919)|
+|4|[javsanchez](https://github.com/javsanchez)|C#|Valgrind error|848.6 ms|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
 
 ### Lines of code
 |#|User|Language|LOC|Time|Memory|Source|Build|
 |-|----|--------|---|----|------|------|-----|
 |1|[javsanchez](https://github.com/javsanchez)|Python|47|1199 ms|8.425 MiB|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
 |2|[javsanchez](https://github.com/javsanchez)|C#|100|848.6 ms|Valgrind error|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
-|3|[pamarcos](https://github.com/pamarcos)|C++|143|169.2 ms|16.23 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/master)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/jobs/460379027)|
+|3|[pamarcos](https://github.com/pamarcos)|C++|162|109.5 ms|10.17 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/476792880)|
+|4|[pamarcos](https://github.com/pamarcos)|C++|204|86.6 ms|10.17 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/476792919)|
 
 ## License
 
