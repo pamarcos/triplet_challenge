@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 sudo apt install time cloc valgrind
 
 wget https://github.com/sharkdp/hyperfine/releases/download/v1.5.0/hyperfine_1.5.0_amd64.deb && sudo dpkg -i hyperfine_1.5.0_amd64.deb
