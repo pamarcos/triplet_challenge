@@ -6,6 +6,7 @@ branches:
     - master # Skip building master since updating the README.md doesn't need to trigger a new build
 env:
   # Change the definitions if your binary or source folder are different
+  # Define SKIP_VALGRIND=1 to skip Valgrind memory analysis
   - SRC_DIR=src TRIPLET_CHALLENGE="./triplet_challenge pg2009.txt"
 addons:
   apt:
@@ -17,8 +18,10 @@ addons:
 # Modify the script lines to compile and program
 script:
   # Take a look at https://github.com/pamarcos/triplet_challenge/blob/cpp/.travis.yml to see a full example of a C++ build
-  - wget https://raw.githubusercontent.com/pamarcos/triplet_challenge/master/check_result.sh && bash check_result.sh
+  - wget https://raw.githubusercontent.com/pamarcos/triplet_challenge/master/check_result.sh -O check_result.sh
+  - bash check_result.sh
 
 # Do not change the `after_success` lines since they are used to collect results to compare with other implementations
 after_success:
-  - wget https://raw.githubusercontent.com/pamarcos/triplet_challenge/master/after_success.sh && bash after_success.sh
+  - wget https://raw.githubusercontent.com/pamarcos/triplet_challenge/master/after_success.sh -O after_success.sh
+  - bash after_success.sh
