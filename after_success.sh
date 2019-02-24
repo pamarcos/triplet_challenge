@@ -23,12 +23,3 @@ hyperfine -r 30 "LD_PRELOAD=./triplet_challenge_preload.so $TRIPLET_CHALLENGE"
 
 # Benchmark memory using GNU Time (Maximum resident set size)
 $(which time) -v $TRIPLET_CHALLENGE
-
-set +u
-# Benchmark memory using Valgrind
-if [[ -z $SKIP_VALGRIND ]]; then
-    sudo apt-get install valgrind
-    valgrind --tool=massif --time-unit=B --massif-out-file=valgrind.out $TRIPLET_CHALLENGE
-    ms_print valgrind.out
-fi
-set -u

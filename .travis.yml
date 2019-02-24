@@ -6,7 +6,6 @@ branches:
     - master # Skip building master since updating the README.md doesn't need to trigger a new build
 env:
   # Change the definitions if your binary or source folder are different
-  # Define SKIP_VALGRIND=1 to skip Valgrind memory analysis
   - SRC_DIR=src TRIPLET_CHALLENGE="./triplet_challenge pg2009.txt"
 addons:
   apt:
