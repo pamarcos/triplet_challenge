@@ -63,7 +63,7 @@ There are 3 main areas that I think would be interesting to compare: speed, memo
 |-|----|--------|---|----|------|------|-----|
 |1|[pausan](https://github.com/pausan)|C|14.65/15.9 ms|6.53 MiB|587|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
 |2|[pausan](https://github.com/pausan)|Go|58.4 ms|15.28 MiB|153|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
-|3|[pamarcos](https://github.com/pamarcos)|C++|91.95/94.3 ms|13.24 MiB|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
+|3|[pamarcos](https://github.com/pamarcos)|C++|91.95/94.3 ms|13.24 MiB|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_speed)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
 |4|[pamarcos](https://github.com/pamarcos)|C++|118.43/121.2 ms|12.81 MiB|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
 |5|[pausan](https://github.com/pausan)|Go|124.8 ms|19.37 MiB|84|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_hashmap)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483764426)|
 |6|[pausan](https://github.com/pausan)|NodeJS|295.8 ms|88.772 MiB|140|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_bonding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483543786)|
