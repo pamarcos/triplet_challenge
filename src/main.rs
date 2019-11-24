@@ -18,13 +18,52 @@
  * You should have received a copy of the GNU General Public License
  * along with triplet_challenge.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+use std::collections::HashMap;
 use std::env;
 use std::fs;
-use std::collections::HashMap;
+use std::hash::{BuildHasherDefault, Hasher};
 
 #[cfg(test)]
 mod test;
+
+/// FNV hash taken from https://github.com/servo/rust-fnv
+///
+/// An implementation of the Fowler–Noll–Vo hash function.
+///
+/// See the [crate documentation](index.html) for more details.
+#[allow(missing_copy_implementations)]
+pub struct FnvHasher(u64);
+
+impl Default for FnvHasher {
+    #[inline]
+    fn default() -> FnvHasher {
+        FnvHasher(0xcbf29ce484222325)
+    }
+}
+
+impl Hasher for FnvHasher {
+    #[inline]
+    fn finish(&self) -> u64 {
+        self.0
+    }
+
+    #[inline]
+    fn write(&mut self, bytes: &[u8]) {
+        let FnvHasher(mut hash) = *self;
+
+        for byte in bytes.iter() {
+            hash = hash ^ (*byte as u64);
+            hash = hash.wrapping_mul(0x100000001b3);
+        }
+
+        *self = FnvHasher(hash);
+    }
+}
+
+/// A `HashMap` using a default FNV hasher.
+type FnvHashMap<K, V> = HashMap<K, V, BuildHasherDefault<FnvHasher>>;
+
+type TripletHashMap<'a> = FnvHashMap<&'a str, usize>;
 
 fn sanitize(content: &str) -> (String, usize) {
     let mut sanitized = String::with_capacity(content.len());
@@ -52,8 +91,9 @@ fn sanitize(content: &str) -> (String, usize) {
     return (sanitized, number);
 }
 
-fn generate_map<'a>(content: &'a str, n_words: usize) -> HashMap<&'a str, usize> {
-    let mut map: HashMap<&str, usize> = HashMap::with_capacity(n_words - 2);
+fn generate_map<'a>(content: &'a str, n_words: usize) -> TripletHashMap<'a> {
+    let mut map: TripletHashMap =
+        TripletHashMap::with_capacity_and_hasher(n_words - 2, Default::default());
     let mut words = 0usize;
     let mut base: [usize; 3] = [0; 3];
 
@@ -75,21 +115,27 @@ fn generate_map<'a>(content: &'a str, n_words: usize) -> HashMap<&'a str, usize>
 
 struct Triplet {
     key: String,
-    count: usize
+    count: usize,
 }
 
 impl Triplet {
     fn new() -> Triplet {
-        Triplet {key: "".to_string(), count: 0}
+        Triplet {
+            key: "".to_string(),
+            count: 0,
+        }
     }
 }
 
-fn collect_max_triplets<'a>(map: &HashMap<&'a str, usize>) -> Vec<Triplet> {
-    let mut triplets = vec!(Triplet::new(), Triplet::new(), Triplet::new());
+fn collect_max_triplets<'a>(map: &TripletHashMap) -> Vec<Triplet> {
+    let mut triplets = vec![Triplet::new(), Triplet::new(), Triplet::new()];
 
     for (key, value) in map.iter() {
         if *value > triplets[2].count {
-            triplets[2] = Triplet{key: key.to_string(), count: *value};
+            triplets[2] = Triplet {
+                key: key.to_string(),
+                count: *value,
+            };
             if *value > triplets[1].count {
                 triplets.swap(2, 1);
                 if *value > triplets[0].count {
@@ -109,7 +155,10 @@ fn main() {
         std::process::exit(1);
     }
     let filename = &args[1];
-    let content = fs::read_to_string(&filename).expect(&format!("Error reading file {} as first argument", &filename));
+    let content = fs::read_to_string(&filename).expect(&format!(
+        "Error reading file {} as first argument",
+        &filename
+    ));
     let (s_content, n_words) = sanitize(&content);
     let map = generate_map(&s_content, n_words);
     let max_triplets = collect_max_triplets(&map);
