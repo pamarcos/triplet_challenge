@@ -1,4 +1,5 @@
-language: cpp
+language: rust
+rust: stable
 os: linux
 dist: xenial
 branches:
@@ -6,7 +7,7 @@ branches:
     - master # Skip building master since updating the README.md doesn't need to trigger a new build
 env:
   # Change the definitions if your binary or source folder are different
-  - SRC_DIR=src TRIPLET_CHALLENGE="./triplet_challenge pg2009.txt"
+  - SRC_DIR=src TRIPLET_CHALLENGE="target/release/triplet_challenge pg2009.txt"
 addons:
   apt:
     sources:
@@ -17,6 +18,7 @@ addons:
 # Modify the script lines to compile and program
 script:
   # Take a look at https://github.com/pamarcos/triplet_challenge/blob/cpp/.travis.yml to see a full example of a C++ build
+  - cargo build --release --verbose
   - wget https://raw.githubusercontent.com/pamarcos/triplet_challenge/master/check_result.sh -O check_result.sh
   - bash check_result.sh
 
