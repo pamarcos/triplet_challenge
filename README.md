@@ -62,29 +62,31 @@ There are 3 main areas that I think would be interesting to compare: speed, memo
 |#|User|Language|Algorithm/Process Time|Memory|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
 |1|[pausan](https://github.com/pausan)|C|14.65/15.9 ms|6.53 MiB|587|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
-|2|[pausan](https://github.com/pausan)|Go|58.4 ms|15.28 MiB|153|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
-|3|[pamarcos](https://github.com/pamarcos)|C++|91.95/94.3 ms|13.24 MiB|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_speed)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
-|4|[pamarcos](https://github.com/pamarcos)|C++|118.43/121.2 ms|12.81 MiB|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
-|5|[pausan](https://github.com/pausan)|Go|124.8 ms|19.37 MiB|84|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_hashmap)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483764426)|
-|6|[pausan](https://github.com/pausan)|NodeJS|295.8 ms|88.772 MiB|140|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_bonding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483543786)|
-|7|[pausan](https://github.com/pausan)|NodeJS|363.5 ms|70.728 MiB|78|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_map)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483064653)|
-|8|[pausan](https://github.com/pausan)|Python|469.5 ms|42.690 MiB|66|[Repo](https://github.com/pausan/triplet_challenge/tree/python_simple)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482145237)|
-|9|[javsanchez](https://github.com/javsanchez)|C#|848.6 ms|-|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
-|10|[javsanchez](https://github.com/javsanchez)|Python|1199 ms|8.425 MiB|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
+|2|[pamarcos](https://github.com/pamarcos)|Rust|30.7 ms|10.39 MiB|119|[Repo](https://github.com/pamarcos/triplet_challenge/tree/rust)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/656906621)|
+|3|[pausan](https://github.com/pausan)|Go|58.4 ms|15.28 MiB|153|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
+|4|[pamarcos](https://github.com/pamarcos)|C++|91.95/94.3 ms|13.24 MiB|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_speed)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
+|5|[pamarcos](https://github.com/pamarcos)|C++|118.43/121.2 ms|12.81 MiB|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
+|6|[pausan](https://github.com/pausan)|Go|124.8 ms|19.37 MiB|84|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_hashmap)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483764426)|
+|7|[pausan](https://github.com/pausan)|NodeJS|295.8 ms|88.772 MiB|140|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_bonding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483543786)|
+|8|[pausan](https://github.com/pausan)|NodeJS|363.5 ms|70.728 MiB|78|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_map)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483064653)|
+|9|[pausan](https://github.com/pausan)|Python|469.5 ms|42.690 MiB|66|[Repo](https://github.com/pausan/triplet_challenge/tree/python_simple)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482145237)|
+|10|[javsanchez](https://github.com/javsanchez)|C#|848.6 ms|-|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
+|11|[javsanchez](https://github.com/javsanchez)|Python|1199 ms|8.425 MiB|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
 
 ### Memory
 |#|User|Language|Memory|Algorithm/Process Time|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
 |1|[pausan](https://github.com/pausan)|C|6.53 MiB|14.65/15.9 ms|587|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
 |2|[javsanchez](https://github.com/javsanchez)|Python|8.425 MiB|1199 ms|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
-|3|[pamarcos](https://github.com/pamarcos)|C++|12.81 MiB|118.43/121.2 ms|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
-|4|[pamarcos](https://github.com/pamarcos)|C++|13.24 MiB|91.95/94.3 ms|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
-|5|[pausan](https://github.com/pausan)|Go|15.28 MiB|58.4 ms|153|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
-|6|[pausan](https://github.com/pausan)|Go|19.37 MiB|124.8 ms|84|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_hashmap)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483764426)|
-|7|[pausan](https://github.com/pausan)|Python|42.690 MiB|469.5 ms|66|[Repo](https://github.com/pausan/triplet_challenge/tree/python_simple)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482145237)|
-|8|[pausan](https://github.com/pausan)|NodeJS|70.728 MiB|363.5 ms|78|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_map)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483064653)|
-|9|[pausan](https://github.com/pausan)|NodeJS|88.772 MiB|295.8 ms|140|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_bonding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483543786)|
-|10|[javsanchez](https://github.com/javsanchez)|C#|-|848.6 ms|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
+|3|[pamarcos](https://github.com/pamarcos)|Rust|10.39 MiB|30.7 ms|119|[Repo](https://github.com/pamarcos/triplet_challenge/tree/rust)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/656906621)|
+|4|[pamarcos](https://github.com/pamarcos)|C++|12.81 MiB|118.43/121.2 ms|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
+|5|[pamarcos](https://github.com/pamarcos)|C++|13.24 MiB|91.95/94.3 ms|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
+|6|[pausan](https://github.com/pausan)|Go|15.28 MiB|58.4 ms|153|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
+|7|[pausan](https://github.com/pausan)|Go|19.37 MiB|124.8 ms|84|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_hashmap)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483764426)|
+|8|[pausan](https://github.com/pausan)|Python|42.690 MiB|469.5 ms|66|[Repo](https://github.com/pausan/triplet_challenge/tree/python_simple)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482145237)|
+|9|[pausan](https://github.com/pausan)|NodeJS|70.728 MiB|363.5 ms|78|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_map)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483064653)|
+|10|[pausan](https://github.com/pausan)|NodeJS|88.772 MiB|295.8 ms|140|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_bonding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483543786)|
+|11|[javsanchez](https://github.com/javsanchez)|C#|-|848.6 ms|100|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
 
 ### Lines of code
 |#|User|Language|LOC|Algorithm/Process Time|Memory|Source|Build|
@@ -94,17 +96,18 @@ There are 3 main areas that I think would be interesting to compare: speed, memo
 |3|[pausan](https://github.com/pausan)|NodeJS|78|363.5 ms|70.728 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_map)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483064653)|
 |4|[pausan](https://github.com/pausan)|Go|84|124.8 ms|19.37 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_hashmap)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483764426)|
 |5|[javsanchez](https://github.com/javsanchez)|C#|100|848.6 ms|-|[Repo](https://github.com/javsanchez/triplet_challenge/tree/C%23-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460853924)|
-|6|[pausan](https://github.com/pausan)|NodeJS|140|295.8 ms|88.772 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_bonding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483543786)|
-|7|[pausan](https://github.com/pausan)|Go|153|58.4 ms|15.28 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
-|8|[pamarcos](https://github.com/pamarcos)|C++|162|118.43/121.2 ms|12.81 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
-|9|[pamarcos](https://github.com/pamarcos)|C++|204|91.95/94.3 ms|13.24 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
-|10|[pausan](https://github.com/pausan)|C|587|14.65/15.9 ms|6.53 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
+|6|[pamarcos](https://github.com/pamarcos)|Rust|119|30.7 ms|10.39 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/rust)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/656906621)|
+|7|[pausan](https://github.com/pausan)|NodeJS|140|295.8 ms|88.772 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/nodejs_bonding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483543786)|
+|8|[pausan](https://github.com/pausan)|Go|153|58.4 ms|15.28 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
+|9|[pamarcos](https://github.com/pamarcos)|C++|162|118.43/121.2 ms|12.81 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
+|10|[pamarcos](https://github.com/pamarcos)|C++|204|91.95/94.3 ms|13.24 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
+|11|[pausan](https://github.com/pausan)|C|587|14.65/15.9 ms|6.53 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
 
 ## License
 
 **GPLv3**
 
-Copyright (C) 2019 Pablo Marcos Oltra
+Copyright (C) 2020 Pablo Marcos Oltra
 
 triplet_challenge is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
