@@ -18,7 +18,7 @@ addons:
 # Modify the script lines to compile and program
 script:
   # Take a look at https://github.com/pamarcos/triplet_challenge/blob/cpp/.travis.yml to see a full example of a C++ build
-  - cargo build --release --verbose
+  - RUSTFLAGS='-C target-cpu=native' cargo build --release --verbose
   - wget https://raw.githubusercontent.com/pamarcos/triplet_challenge/master/check_result.sh -O check_result.sh
   - bash check_result.sh
 

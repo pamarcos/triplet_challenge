@@ -74,7 +74,7 @@ fn sanitize(content: &str) -> (String, usize) {
         if c.is_alphanumeric() {
             if !last_taken {
                 sanitized.push(' ');
-                number = number + 1;
+                number += 1;
             }
             sanitized.push(c.to_ascii_lowercase());
             last_taken = true;
@@ -85,7 +85,7 @@ fn sanitize(content: &str) -> (String, usize) {
 
     if last_taken {
         sanitized.push(' ');
-        number = number + 1;
+        number += 1;
     }
 
     return (sanitized, number);
@@ -99,11 +99,10 @@ fn generate_map<'a>(content: &'a str, n_words: usize) -> TripletHashMap<'a> {
 
     for (i, c) in content.char_indices() {
         if c.is_ascii_whitespace() {
-            words = words + 1;
+            words += 1;
             if words >= 3 {
                 let key = &content[base[words % 3]..i];
-                let value = *map.entry(key).or_insert(0);
-                map.insert(key, value + 1);
+                map.entry(key).and_modify(|e| *e += 1).or_insert(1);
                 //println!("Key \"{}\" collected with value {}", key, map.get(key).unwrap());
             }
             base[words % 3] = i + 1;
@@ -130,15 +129,15 @@ impl Triplet {
 fn collect_max_triplets<'a>(map: &TripletHashMap) -> Vec<Triplet> {
     let mut triplets = vec![Triplet::new(), Triplet::new(), Triplet::new()];
 
-    for (key, value) in map.iter() {
-        if *value > triplets[2].count {
+    for (&key, &value) in map.iter() {
+        if value > triplets[2].count {
             triplets[2] = Triplet {
                 key: key.to_string(),
-                count: *value,
+                count: value,
             };
-            if *value > triplets[1].count {
+            if value > triplets[1].count {
                 triplets.swap(2, 1);
-                if *value > triplets[0].count {
+                if value > triplets[0].count {
                     triplets.swap(1, 0);
                 }
             }
