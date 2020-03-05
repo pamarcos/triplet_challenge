@@ -22,6 +22,7 @@ use std::collections::HashMap;
 use std::env;
 use std::fs;
 use std::hash::{BuildHasherDefault, Hasher};
+use std::time::Instant;
 
 #[cfg(test)]
 mod test;
@@ -148,6 +149,7 @@ fn collect_max_triplets<'a>(map: &TripletHashMap) -> Vec<Triplet> {
 }
 
 fn main() {
+    let start = Instant::now();
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         eprintln!("Error: You must give a filename as first argument");
@@ -158,11 +160,22 @@ fn main() {
         "Error reading file {} as first argument",
         &filename
     ));
+
+    let mut t1 = Instant::now();
     let (s_content, n_words) = sanitize(&content);
+    eprintln!("Sanitize took {} ms", (Instant::now() - t1).as_millis());
+
+    t1 = Instant::now();
     let map = generate_map(&s_content, n_words);
+    eprintln!("Generate map took {} ms", (Instant::now() - t1).as_millis());
+
+    t1 = Instant::now();
     let max_triplets = collect_max_triplets(&map);
+    eprintln!("Max triplets took {} ms", (Instant::now() - t1).as_millis());
 
     for triplet in &max_triplets {
         println!("{} - {}", triplet.key, triplet.count);
     }
+
+    eprintln!("Total time elapsed: {} m", (Instant::now() - start).as_millis());
 }
