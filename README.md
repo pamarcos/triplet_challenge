@@ -145,7 +145,7 @@ memory and lines of code (without comments):
 ### Speed
 |#|User|Language|Algorithm/Process Time|Memory|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
-|1|[pausan](https://github.com/pausan)|C|14.65/15.9 ms|6.53 MiB|587|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
+|1|[pausan](https://github.com/pausan)|C|9.52/10.4 ms|4.5 MiB|609|[Repo](https://github.com/pausan/triplet_challenge/tree/c_bounding_mem_fastest)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/659458404)|
 |2|[pamarcos](https://github.com/pamarcos)|Rust|23.93/25.1 ms|10.31 MiB|119|[Repo](https://github.com/pamarcos/triplet_challenge/tree/rust)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/658592999)|
 |3|[pausan](https://github.com/pausan)|Go|58.4 ms|15.28 MiB|153|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
 |4|[pamarcos](https://github.com/pamarcos)|C++|91.95/94.3 ms|13.24 MiB|204|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_speed)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
@@ -160,7 +160,7 @@ memory and lines of code (without comments):
 ### Memory
 |#|User|Language|Memory|Algorithm/Process Time|LOC|Source|Build|
 |-|----|--------|---|----|------|------|-----|
-|1|[pausan](https://github.com/pausan)|C|6.53 MiB|14.65/15.9 ms|587|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
+|1|[pausan](https://github.com/pausan)|C|4.5 MiB|9.52/10.4 ms|609|[Repo](https://github.com/pausan/triplet_challenge/tree/c_bounding_mem_fastest)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/659458404)|
 |2|[javsanchez](https://github.com/javsanchez)|Python|8.425 MiB|1199 ms|47|[Repo](https://github.com/javsanchez/triplet_challenge/tree/Python-Implementation)|[Build](https://travis-ci.org/javsanchez/triplet_challenge/builds/460852222)|
 |3|[pamarcos](https://github.com/pamarcos)|Rust|10.31 MiB|23.93/25.1 ms|119|[Repo](https://github.com/pamarcos/triplet_challenge/tree/rust)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/658592999)|
 |4|[pamarcos](https://github.com/pamarcos)|C++|12.81 MiB|118.43/121.2 ms|162|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
@@ -185,7 +185,7 @@ memory and lines of code (without comments):
 |8|[pausan](https://github.com/pausan)|Go|153|58.4 ms|15.28 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/golang_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/483783882)|
 |9|[pamarcos](https://github.com/pamarcos)|C++|162|118.43/121.2 ms|12.81 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444138)|
 |10|[pamarcos](https://github.com/pamarcos)|C++|204|91.95/94.3 ms|13.24 MiB|[Repo](https://github.com/pamarcos/triplet_challenge/tree/cpp_parallel)|[Build](https://travis-ci.org/pamarcos/triplet_challenge/builds/478444323)|
-|11|[pausan](https://github.com/pausan)|C|587|14.65/15.9 ms|6.53 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/c_implementation_bounding)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/482002430)|
+|11|[pausan](https://github.com/pausan)|C|609|9.52/10.4 ms|4.5 MiB|[Repo](https://github.com/pausan/triplet_challenge/tree/c_bounding_mem_fastest)|[Build](https://travis-ci.org/pausan/triplet_challenge/builds/659458404)|
 
 ## License
 
