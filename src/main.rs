@@ -127,7 +127,7 @@ impl Triplet {
     }
 }
 
-fn collect_max_triplets<'a>(map: &TripletHashMap) -> Vec<Triplet> {
+fn collect_max_triplets(map: &TripletHashMap) -> Vec<Triplet> {
     let mut triplets = vec![Triplet::new(), Triplet::new(), Triplet::new()];
 
     for (&key, &value) in map.iter() {
@@ -163,6 +163,7 @@ fn main() {
 
     let mut t1 = Instant::now();
     let (s_content, n_words) = sanitize(&content);
+    drop(content); // early drop since no longer used
     eprintln!("Sanitize took {} ms", (Instant::now() - t1).as_millis());
 
     t1 = Instant::now();
