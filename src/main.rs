@@ -119,8 +119,8 @@ struct Triplet {
 }
 
 impl Triplet {
-    fn new() -> Triplet {
-        Triplet {
+    fn new() -> Self {
+        Self {
             key: "".to_string(),
             count: 0,
         }
