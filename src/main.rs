@@ -22,6 +22,7 @@ use std::collections::HashMap;
 use std::env;
 use std::fs;
 use std::hash::{BuildHasherDefault, Hasher};
+use std::mem;
 use std::time::Instant;
 
 #[cfg(test)]
@@ -164,11 +165,20 @@ fn main() {
     let mut t1 = Instant::now();
     let (s_content, n_words) = sanitize(&content);
     drop(content); // early drop since no longer used
-    eprintln!("Sanitize took {} ms", (Instant::now() - t1).as_millis());
+    eprintln!(
+        "Sanitize took {} ms for {} bytes of text with {} words processed",
+        (Instant::now() - t1).as_millis(),
+        s_content.len(),
+        n_words
+    );
 
     t1 = Instant::now();
     let map = generate_map(&s_content, n_words);
-    eprintln!("Generate map took {} ms", (Instant::now() - t1).as_millis());
+    eprintln!(
+        "Generate map took {} ms. The map uses {} Kbytes",
+        (Instant::now() - t1).as_millis(),
+        map.capacity() * mem::size_of_val(&map.iter().nth(0).unwrap()) / 1024
+    );
 
     t1 = Instant::now();
     let max_triplets = collect_max_triplets(&map);
@@ -178,5 +188,8 @@ fn main() {
         println!("{} - {}", triplet.key, triplet.count);
     }
 
-    eprintln!("Total time elapsed: {} m", (Instant::now() - start).as_millis());
+    eprintln!(
+        "Total time elapsed: {} m",
+        (Instant::now() - start).as_millis()
+    );
 }
