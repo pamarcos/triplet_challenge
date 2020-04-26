@@ -22,7 +22,6 @@ use std::collections::HashMap;
 use std::env;
 use std::fs;
 use std::hash::{BuildHasherDefault, Hasher};
-use std::mem;
 use std::time::Instant;
 
 #[cfg(test)]
@@ -65,54 +64,7 @@ impl Hasher for FnvHasher {
 /// A `HashMap` using a default FNV hasher.
 type FnvHashMap<K, V> = HashMap<K, V, BuildHasherDefault<FnvHasher>>;
 
-type TripletHashMap<'a> = FnvHashMap<&'a str, usize>;
-
-fn sanitize(content: &str) -> (String, usize) {
-    let mut sanitized = String::with_capacity(content.len());
-    let mut number = 0;
-    let mut last_taken = true;
-
-    for c in content.chars() {
-        if c.is_alphanumeric() {
-            if !last_taken {
-                sanitized.push(' ');
-                number += 1;
-            }
-            sanitized.push(c.to_ascii_lowercase());
-            last_taken = true;
-        } else {
-            last_taken = false;
-        }
-    }
-
-    if last_taken {
-        sanitized.push(' ');
-        number += 1;
-    }
-
-    return (sanitized, number);
-}
-
-fn generate_map<'a>(content: &'a str, n_words: usize) -> TripletHashMap<'a> {
-    let mut map: TripletHashMap =
-        TripletHashMap::with_capacity_and_hasher(n_words - 2, Default::default());
-    let mut words = 0usize;
-    let mut base: [usize; 3] = [0; 3];
-
-    for (i, c) in content.char_indices() {
-        if c.is_ascii_whitespace() {
-            words += 1;
-            if words >= 3 {
-                let key = &content[base[words % 3]..i];
-                map.entry(key).and_modify(|e| *e += 1).or_insert(1);
-                //println!("Key \"{}\" collected with value {}", key, map.get(key).unwrap());
-            }
-            base[words % 3] = i + 1;
-        }
-    }
-
-    return map;
-}
+type TripletHashMap<'a> = FnvHashMap<&'a [&'a str], usize>;
 
 struct Triplet {
     key: String,
@@ -128,13 +80,47 @@ impl Triplet {
     }
 }
 
+fn sanitize(mut content: String) -> String {
+    unsafe {
+        for byte in content.as_bytes_mut() {
+            if byte.is_ascii_alphanumeric() {
+                *byte = byte.to_ascii_lowercase();
+            } else {
+                *byte = 32u8; // whitespace
+            }
+        }
+    }
+
+    content
+}
+
+fn generate_map<'a>(words: &'a Vec<&'a str>) -> TripletHashMap<'a> {
+    let len = words.len() - 2;
+    let mut map: TripletHashMap = TripletHashMap::with_capacity_and_hasher(len, Default::default());
+
+    for i in 0..len {
+        map.entry(&words[i..i + 3])
+            .and_modify(|e| *e += 1)
+            .or_insert(1);
+    }
+
+    map
+}
+
 fn collect_max_triplets(map: &TripletHashMap) -> Vec<Triplet> {
     let mut triplets = vec![Triplet::new(), Triplet::new(), Triplet::new()];
 
+    let mut tmp_str = String::new();
     for (&key, &value) in map.iter() {
         if value > triplets[2].count {
+            tmp_str.clear();
+            for word in key {
+                tmp_str += word;
+                tmp_str += " ";
+            }
+            tmp_str.pop();
             triplets[2] = Triplet {
-                key: key.to_string(),
+                key: tmp_str.clone(),
                 count: value,
             };
             if value > triplets[1].count {
@@ -146,7 +132,7 @@ fn collect_max_triplets(map: &TripletHashMap) -> Vec<Triplet> {
         }
     }
 
-    return triplets;
+    triplets
 }
 
 fn main() {
@@ -157,39 +143,34 @@ fn main() {
         std::process::exit(1);
     }
     let filename = &args[1];
-    let content = fs::read_to_string(&filename).expect(&format!(
+    let mut content = fs::read_to_string(&filename).expect(&format!(
         "Error reading file {} as first argument",
         &filename
     ));
 
     let mut t1 = Instant::now();
-    let (s_content, n_words) = sanitize(&content);
-    drop(content); // early drop since no longer used
+    content = sanitize(content);
+    let words: Vec<_> = content.split_whitespace().collect();
     eprintln!(
-        "Sanitize took {} ms for {} bytes of text with {} words processed",
+        "Sanitize and split took {} ms for {} bytes of text with {} words processed",
         (Instant::now() - t1).as_millis(),
-        s_content.len(),
-        n_words
+        content.len(),
+        words.len()
     );
 
     t1 = Instant::now();
-    let map = generate_map(&s_content, n_words);
-    eprintln!(
-        "Generate map took {} ms. The map uses {} Kbytes",
-        (Instant::now() - t1).as_millis(),
-        map.capacity() * mem::size_of_val(&map.iter().nth(0).unwrap()) / 1024
-    );
+    let map = generate_map(&words);
+    eprintln!("Generate map took {} ms", (Instant::now() - t1).as_millis(),);
 
     t1 = Instant::now();
     let max_triplets = collect_max_triplets(&map);
-    eprintln!("Max triplets took {} ms", (Instant::now() - t1).as_millis());
-
     for triplet in &max_triplets {
         println!("{} - {}", triplet.key, triplet.count);
     }
+    eprintln!("Max triplets took {} ms", (Instant::now() - t1).as_millis());
 
     eprintln!(
-        "Total time elapsed: {} m",
+        "Total time elapsed: {} ms",
         (Instant::now() - start).as_millis()
     );
 }
